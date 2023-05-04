@@ -1,0 +1,128 @@
+{% include 'check_logstate.html' %}
+{% load staticfiles %}
+<link rel="stylesheet" type="text/css" href="{% static '/css/flight.css' %}" />
+
+{% csrf_token %}
+<div id="flight_manage"></div>
+<div id="flight_manage_tool" style="padding:5px;">
+	<div style="margin-bottom:5px;">
+		<a href="#" class="easyui-linkbutton" iconCls="icon-edit-new" plain="true" onclick="flight_manage_tool.edit();">修改</a>
+		<a href="#" class="easyui-linkbutton" iconCls="icon-delete-new" plain="true" onclick="flight_manage_tool.remove();">删除</a>
+		<a href="#" class="easyui-linkbutton" iconCls="icon-reload" plain="true"  onclick="flight_manage_tool.reload();">刷新</a>
+		<a href="#" class="easyui-linkbutton" iconCls="icon-redo" plain="true" onclick="flight_manage_tool.redo();">取消选择</a>
+		<a href="#" class="easyui-linkbutton" iconCls="icon-export" plain="true" onclick="flight_manage_tool.exportExcel();">导出到excel</a>
+	</div>
+	<div style="padding:0 0 0 7px;color:#333;">
+		<form id="flightQueryForm" method="get">
+			航班号：<input type="text" class="textbox" id="flightNumber" name="flightNumber" style="width:110px" />
+			始发机场：<input class="textbox" type="text" id="startStation_stationId_query" name="startStation.stationId" style="width: auto"/>
+			终到机场：<input class="textbox" type="text" id="endStation_stationId_query" name="endStation.stationId" style="width: auto"/>
+			起飞时间：<input type="text" id="startTime" name="startTime" class="easyui-datebox" editable="false" style="width:100px">
+			终到时间：<input type="text" id="endTime" name="endTime" class="easyui-datebox" editable="false" style="width:100px">
+			席别：<input class="textbox" type="text" id="seatType_seatTypeId_query" name="seatType.seatTypeId" style="width: auto"/>
+			<a href="#" class="easyui-linkbutton" iconCls="icon-search" onclick="flight_manage_tool.search();">查询</a>
+		</form>	
+	</div>
+</div>
+
+<div id="flightEditDiv">
+	<form id="flightEditForm" enctype="multipart/form-data"  method="post">
+        {% csrf_token %}
+		<div>
+			<span class="label">记录编号:</span>
+			<span class="inputControl">
+				<input class="textbox" type="text" id="flight_flightId_edit" name="flight.flightId" style="width:200px" />
+			</span>
+		</div>
+		<div>
+			<span class="label">航班号:</span>
+			<span class="inputControl">
+				<input class="textbox" type="text" id="flight_flightNumber_edit" name="flight.flightNumber" style="width:200px" />
+
+			</span>
+
+		</div>
+		<div>
+			<span class="label">航班图片:</span>
+			<span class="inputControl">
+				<img id="flight_flightPhotoImg" width="200px" border="0px"/><br/>
+				<input id="flight_flightPhoto" name="flight.flightPhoto" type="file" size="50" />
+			</span>
+		</div>
+		<div>
+			<span class="label">始发机场:</span>
+			<span class="inputControl">
+				<input class="textbox"  id="flight_startStation_stationId_edit" name="flight.startStation.stationId" style="width: auto"/>
+			</span>
+		</div>
+		<div>
+			<span class="label">终到机场:</span>
+			<span class="inputControl">
+				<input class="textbox"  id="flight_endStation_stationId_edit" name="flight.endStation.stationId" style="width: auto"/>
+			</span>
+		</div>
+		<div>
+			<span class="label">起飞时间:</span>
+			<span class="inputControl">
+				<input class="textbox" type="text" id="flight_startTime_edit" name="flight.startTime" />
+
+			</span>
+
+		</div>
+		<div>
+			<span class="label">终到时间:</span>
+			<span class="inputControl">
+				<input class="textbox" type="text" id="flight_endTime_edit" name="flight.endTime" />
+
+			</span>
+
+		</div>
+		<div>
+			<span class="label">历时:</span>
+			<span class="inputControl">
+				<input class="textbox" type="text" id="flight_totalTime_edit" name="flight.totalTime" style="width:200px" />
+
+			</span>
+
+		</div>
+		<div>
+			<span class="label">席别:</span>
+			<span class="inputControl">
+				<input class="textbox"  id="flight_seatType_seatTypeId_edit" name="flight.seatType.seatTypeId" style="width: auto"/>
+			</span>
+		</div>
+		<div>
+			<span class="label">票价:</span>
+			<span class="inputControl">
+				<input class="textbox" type="text" id="flight_price_edit" name="flight.price" style="width:80px" />
+
+			</span>
+
+		</div>
+		<div>
+			<span class="label">总票数:</span>
+			<span class="inputControl">
+				<input class="textbox" type="text" id="flight_seatNumber_edit" name="flight.seatNumber" style="width:80px" />
+
+			</span>
+
+		</div>
+		<div>
+			<span class="label">剩余票数:</span>
+			<span class="inputControl">
+				<input class="textbox" type="text" id="flight_leftSeatNumber_edit" name="flight.leftSeatNumber" style="width:80px" />
+
+			</span>
+
+		</div>
+		<div>
+			<span class="label">航班描述:</span>
+			<span class="inputControl">
+				<textarea name="flight.flightDesc" id="flight_flightDesc_edit" type="text/plain"   style="width:100%;height:500px;"></textarea>
+
+			</span>
+
+		</div>
+	</form>
+</div>
+<script type="text/javascript" src="{% static 'js/Flight/flight_manage.js' %}"></script>

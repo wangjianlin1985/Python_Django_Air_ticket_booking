@@ -1,0 +1,59 @@
+{% load staticfiles %}
+{% include 'check_logstate.html' %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/stationInfo.css' %}" />
+<div id="stationInfo_EditDiv">
+	<form id="stationInfoModifyForm" enctype="multipart/form-data"  method="post">
+        {% csrf_token %}
+		<div>
+			<span class="label">记录编号:</span>
+			<span class="inputControl">
+				<input class="textbox" type="text" id="stationInfo_stationId_modify" name="stationInfo.stationId" value="{{ stationId }}" style="width:200px" />
+			</span>
+		</div>
+
+		<div>
+			<span class="label">机场名称:</span>
+			<span class="inputControl">
+				<input class="textbox" type="text" id="stationInfo_stationName_modify" name="stationInfo.stationName" style="width:200px" />
+
+			</span>
+
+		</div>
+		<div>
+			<span class="label">联系人:</span>
+			<span class="inputControl">
+				<input class="textbox" type="text" id="stationInfo_connectPerson_modify" name="stationInfo.connectPerson" style="width:200px" />
+
+			</span>
+
+		</div>
+		<div>
+			<span class="label">联系电话:</span>
+			<span class="inputControl">
+				<input class="textbox" type="text" id="stationInfo_telephone_modify" name="stationInfo.telephone" style="width:200px" />
+
+			</span>
+
+		</div>
+		<div>
+			<span class="label">邮编:</span>
+			<span class="inputControl">
+				<input class="textbox" type="text" id="stationInfo_postcode_modify" name="stationInfo.postcode" style="width:200px" />
+
+			</span>
+
+		</div>
+		<div>
+			<span class="label">通讯地址:</span>
+			<span class="inputControl">
+				<input class="textbox" type="text" id="stationInfo_address_modify" name="stationInfo.address" style="width:200px" />
+
+			</span>
+
+		</div>
+		<div class="operation">
+			<a id="stationInfoModifyButton" class="easyui-linkbutton">更新</a> 
+		</div>
+	</form>
+</div>
+<script src="{% static 'js/StationInfo/stationInfo_modify.js' %}"></script>

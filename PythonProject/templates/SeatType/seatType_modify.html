@@ -1,0 +1,27 @@
+{% load staticfiles %}
+{% include 'check_logstate.html' %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/seatType.css' %}" />
+<div id="seatType_EditDiv">
+	<form id="seatTypeModifyForm" enctype="multipart/form-data"  method="post">
+        {% csrf_token %}
+		<div>
+			<span class="label">记录编号:</span>
+			<span class="inputControl">
+				<input class="textbox" type="text" id="seatType_seatTypeId_modify" name="seatType.seatTypeId" value="{{ seatTypeId }}" style="width:200px" />
+			</span>
+		</div>
+
+		<div>
+			<span class="label">席别名称:</span>
+			<span class="inputControl">
+				<input class="textbox" type="text" id="seatType_seatTypeName_modify" name="seatType.seatTypeName" style="width:200px" />
+
+			</span>
+
+		</div>
+		<div class="operation">
+			<a id="seatTypeModifyButton" class="easyui-linkbutton">更新</a> 
+		</div>
+	</form>
+</div>
+<script src="{% static 'js/SeatType/seatType_modify.js' %}"></script>

@@ -1,0 +1,133 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1 , user-scalable=no">
+  <TITLE>修改机场信息信息</TITLE>
+  <link href="{% static 'plugins/bootstrap.css' %}" rel="stylesheet">
+  <link href="{% static 'plugins/bootstrap-dashen.css' %}" rel="stylesheet">
+  <link href="{% static 'plugins/font-awesome.css' %}" rel="stylesheet">
+  <link href="{% static 'plugins/animate.css' %}" rel="stylesheet">
+</head>
+<body style="margin-top:70px;"> 
+<div class="container">
+    {% include 'header.html' %}
+	<div class="col-md-9 wow fadeInLeft">
+	<ul class="breadcrumb">
+  		<li><a href="{% url 'Index:index' %}">首页</a></li>
+  		<li class="active">机场信息信息修改</li>
+	</ul>
+		<div class="row"> 
+      	<form class="form-horizontal" name="stationInfoEditForm" id="stationInfoEditForm" enctype="multipart/form-data" method="post"  class="mar_t15">
+            {% csrf_token %}
+		  <div class="form-group">
+			 <label for="stationInfo_stationId_edit" class="col-md-3 text-right">记录编号:</label>
+			 <div class="col-md-9"> 
+			 	<input type="text" id="stationInfo_stationId_edit" name="stationInfo.stationId" class="form-control" placeholder="请输入记录编号" readOnly>
+			 </div>
+		  </div> 
+		  <div class="form-group">
+		  	 <label for="stationInfo_stationName_edit" class="col-md-3 text-right">机场名称:</label>
+		  	 <div class="col-md-9">
+			    <input type="text" id="stationInfo_stationName_edit" name="stationInfo.stationName" class="form-control" placeholder="请输入机场名称">
+			 </div>
+		  </div>
+		  <div class="form-group">
+		  	 <label for="stationInfo_connectPerson_edit" class="col-md-3 text-right">联系人:</label>
+		  	 <div class="col-md-9">
+			    <input type="text" id="stationInfo_connectPerson_edit" name="stationInfo.connectPerson" class="form-control" placeholder="请输入联系人">
+			 </div>
+		  </div>
+		  <div class="form-group">
+		  	 <label for="stationInfo_telephone_edit" class="col-md-3 text-right">联系电话:</label>
+		  	 <div class="col-md-9">
+			    <input type="text" id="stationInfo_telephone_edit" name="stationInfo.telephone" class="form-control" placeholder="请输入联系电话">
+			 </div>
+		  </div>
+		  <div class="form-group">
+		  	 <label for="stationInfo_postcode_edit" class="col-md-3 text-right">邮编:</label>
+		  	 <div class="col-md-9">
+			    <input type="text" id="stationInfo_postcode_edit" name="stationInfo.postcode" class="form-control" placeholder="请输入邮编">
+			 </div>
+		  </div>
+		  <div class="form-group">
+		  	 <label for="stationInfo_address_edit" class="col-md-3 text-right">通讯地址:</label>
+		  	 <div class="col-md-9">
+			    <input type="text" id="stationInfo_address_edit" name="stationInfo.address" class="form-control" placeholder="请输入通讯地址">
+			 </div>
+		  </div>
+			  <div class="form-group">
+			  	<span class="col-md-3""></span>
+			  	<span onclick="ajaxStationInfoModify();" class="btn btn-primary bottom5 top5">修改</span>
+			  </div>
+		</form> 
+	    <style>#stationInfoEditForm .form-group {margin-bottom:5px;}  </style>
+      </div>
+   </div>
+</div>
+
+
+{% include 'footer.html' %}
+<script src="{% static 'plugins/jquery.min.js' %}"></script>
+<script src="{% static 'plugins/bootstrap.js' %}"></script>
+<script src="{% static 'plugins/wow.min.js' %}"></script>
+<script src="{% static 'plugins/bootstrap-datetimepicker.min.js' %}"></script>
+<script src="{% static 'plugins/locales/bootstrap-datetimepicker.zh-CN.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/jsdate.js' %}"></script>
+<script>
+/*弹出修改机场信息界面并初始化数据*/
+ function ajaxModifyQuery(stationId) {
+	$.ajax({
+		url :  "/StationInfo/update/" + stationId,
+		type : "get",
+		dataType: "json",
+		success : function (stationInfo, response, status) {
+			if (stationInfo) {
+				$("#stationInfo_stationId_edit").val(stationInfo.stationId);
+				$("#stationInfo_stationName_edit").val(stationInfo.stationName);
+				$("#stationInfo_connectPerson_edit").val(stationInfo.connectPerson);
+				$("#stationInfo_telephone_edit").val(stationInfo.telephone);
+				$("#stationInfo_postcode_edit").val(stationInfo.postcode);
+				$("#stationInfo_address_edit").val(stationInfo.address);
+			} else {
+				alert("获取信息失败！");
+			}
+		}
+	});
+}
+
+/*ajax方式提交机场信息信息表单给服务器端修改*/
+function ajaxStationInfoModify() {
+	$.ajax({
+		url :  "/StationInfo/update/" + $("#stationInfo_stationId_edit").val(),
+		type : "post",
+		dataType: "json",
+		data: new FormData($("#stationInfoEditForm")[0]),
+		success : function (obj, response, status) {
+            if(obj.success){
+                alert("信息修改成功！");
+                location.reload(true);
+                $("#stationInfoQueryForm").submit();
+            }else{
+                alert(obj.message);
+            } 
+		},
+		processData: false,
+		contentType: false,
+	});
+}
+
+$(function(){
+        /*小屏幕导航点击关闭菜单*/
+        $('.navbar-collapse a').click(function(){
+            $('.navbar-collapse').collapse('hide');
+        });
+        new WOW().init();
+    setTimeout(ajaxModifyQuery,100,"{{ stationId }}");
+ })
+ </script> 
+</body>
+</html>
+
